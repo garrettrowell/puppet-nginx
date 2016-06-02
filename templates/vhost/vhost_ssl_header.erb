@@ -28,6 +28,12 @@ server {
 
 <% end -%>
 <% end -%>
+<% if @rewrite_to_https -%>
+server {
+  listen 80;
+  return 301 https://$host<% if @ssl_port.to_i != 443 %>:<%= @ssl_port %><% end %>$request_uri;
+}
+<% end -%>
 server {
   <%- if @listen_ip.is_a?(Array) then -%>
     <%- @listen_ip.each do |ip| -%>
